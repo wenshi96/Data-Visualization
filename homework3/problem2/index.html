@@ -177,6 +177,14 @@
             .attr("class", d => {return d.key})
             .attr("fill", d => color(d.key))
             .attr("d", area)
+
+        svg.append("text")
+            .attr("class", "axis-label")
+            .attr("x", width/2)
+            .attr("y", height+48)
+            .text("INCOME PERCENTILE")
+            .attr("text-anchor", "middle")
+
     //     // https://github.com/d3/d3-scale#ordinal-scales
 
     //     //https://github.com/d3/d3-shape#areas
