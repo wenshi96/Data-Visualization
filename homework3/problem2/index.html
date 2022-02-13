@@ -126,6 +126,45 @@
         console.log({d2020})
 
     //     //https://github.com/d3/d3-shape#stacks
+        
+        let series2020 = d3.stack().keys(sel_cols)(d2020);
+        console.log({series2020})
+
+        let x = d3.scaleLinear()
+            .domain([0,100])
+            .range([margin.left,width])
+
+        let y = d3.scaleLinear()
+            .domain([0,1])
+            .range([height-margin.bottom,margin.top])
+
+        let area = d3.area()
+            .x(d => x(d.data.Percentile))
+            .y0(d => y(d[0]))
+            .y1(d => y(d[1]))
+
+        let xAxisSettings = d3.axisBottom(x)
+            .tickSize(6)
+            .tickPadding(6)
+            .tickValues([5,10,20,30,40,50,60,70,80,90,95])      
+            .tickFormat(d3.format(".0f"))
+
+        let xAxis = svg.append("g")
+            .attr("class", "x axis")  
+            .call(xAxisSettings)
+            .call(g => g.selectAll(".domain").remove())
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+        
+        let yAxisSettings = d3.axisLeft(y)
+            .tickSize(6)
+            .tickPadding(4)
+            .tickValues([.2,.4,.6,.8])      
+            .tickFormat(d3.format(".0%"))
+
+        let yAxis = svg.append("g")
+            .attr("class", "y axis")  
+            .call(yAxisSettings)
+            .call(g => g.selectAll(".domain").remove())
 
     //     // https://github.com/d3/d3-scale#ordinal-scales
 
