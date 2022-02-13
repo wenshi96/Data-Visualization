@@ -95,14 +95,6 @@
 
         console.log({data})
 
-        data.forEach(d => {
-            d.Percentile = +d.Percentile 
-            d.Medicaid =  +d.Medicaid
-            d.Medicare = +d.Medicare
-            d.CHIP = +d.CHIP
-
-        });
-
         let margin = { top: 10, right: 10, bottom: 10, left: 30 };
 
         let sel_cols = [
@@ -129,6 +121,9 @@
             "#90A4AE", // "Military",
             "#E0E0E0"  // "Other"
         ]
+
+        let d2020 = data.filter(d => d.year == 2020)
+        console.log({d2020})
 
     //     //https://github.com/d3/d3-shape#stacks
 
