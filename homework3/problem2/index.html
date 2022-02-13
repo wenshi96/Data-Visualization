@@ -130,6 +130,10 @@
         let series2020 = d3.stack().keys(sel_cols)(d2020);
         console.log({series2020})
 
+        let color = d3.scaleOrdinal()
+            .domain(sel_cols)
+            .range(sel_colors)
+
         let x = d3.scaleLinear()
             .domain([0,100])
             .range([margin.left,width])
