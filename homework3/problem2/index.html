@@ -19,7 +19,7 @@
         }
 
         h1 {
-            margin: 0 auto;
+            margin-left: 30px;
         }
 
         .x .tick line {
@@ -123,11 +123,13 @@
         ]
 
         let d2020 = data.filter(d => d.year == 2020)
+        let d2009 = data.filter(d => d.year == 2009)
         console.log({d2020})
 
     //     //https://github.com/d3/d3-shape#stacks
         
         let series2020 = d3.stack().keys(sel_cols)(d2020);
+        let series2009 = d3.stack().keys(sel_cols)(d2009);
         console.log({series2020})
 
         let color = d3.scaleOrdinal()
@@ -185,6 +187,19 @@
             .text("INCOME PERCENTILE")
             .attr("text-anchor", "middle")
 
+        svg.append("text")
+            .attr("class", "axis-label")
+            .attr("x", 30)
+            .attr("y", height+48)
+            .text("lower INCOME")
+            .attr("text-anchor", "start")
+
+        svg.append("text")
+            .attr("class", "axis-label")
+            .attr("x", width-30)
+            .attr("y", height+48)
+            .text("higher INCOME")
+            .attr("text-anchor", "end")
     //     // https://github.com/d3/d3-scale#ordinal-scales
 
     //     //https://github.com/d3/d3-shape#areas
