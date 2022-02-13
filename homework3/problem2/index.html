@@ -203,7 +203,51 @@
     //     // https://github.com/d3/d3-scale#ordinal-scales
 
     //     //https://github.com/d3/d3-shape#areas
-      
+
+        let legend_cols = [
+            "Medicare+Medicaid",
+            "Direct Purchase",
+            "Subsidized Exchange",
+            "CHIP",
+            "Military",
+            "Other"
+            ]
+
+        let legend_colors = [
+            "#FDD835", // "Medicare+Medicaid",
+            "#4DD0E1", // "Direct Purchase",
+            "#F06292", // "Subsidized Exchange",
+            "#5C6BC0", // "CHIP",
+            "#90A4AE", // "Military",
+            "#E0E0E0"  // "Other"
+        ]
+
+        let legend_color = d3.scaleOrdinal()
+            .domain(legend_cols)
+            .range(legend_colors)
+
+        var size = 20
+
+        svg.append("mydots")
+            .data(legend_cols)
+            .enter()
+            .append("rect")
+            .attr("x", 810)
+            .attr("y", function(d,i){ return 10 + i*(10+size)})
+            .attr("width", size)
+            .attr("height", size)
+            .style("fill", function(d){return legend_color(d)})
+
+        svg.append("mylabels")
+            .data(legend_cols)
+            .enter()
+            .append("text")
+            .attr("x", 820+size*1.2)
+            .attr("y", function(d,i){ return 10 + i*(10+size)+(size/2)})
+            .text(function(d){return d})
+            .attr("text-anchor", "left")
+            .attr("align-basement","middle")
+            .style("fill", function(d){return legend_color(d)})
     })
 
 </script>
