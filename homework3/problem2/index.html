@@ -93,7 +93,7 @@
 
     d3.csv("healthcare-disposable-inc.csv").then(function (data) {
 
-        console.log({data})
+        console.log({ data })
 
         let margin = { top: 10, right: 10, bottom: 10, left: 30 };
 
@@ -124,25 +124,25 @@
 
         let d2020 = data.filter(d => d.year == 2020)
         let d2009 = data.filter(d => d.year == 2009)
-        console.log({d2020})
+        console.log({ d2020 })
 
-    //     //https://github.com/d3/d3-shape#stacks
-        
+        //     //https://github.com/d3/d3-shape#stacks
+
         let series2020 = d3.stack().keys(sel_cols)(d2020);
         let series2009 = d3.stack().keys(sel_cols)(d2009);
-        console.log({series2020})
+        console.log({ series2020 })
 
         let color = d3.scaleOrdinal()
             .domain(sel_cols)
             .range(sel_colors)
 
         let x = d3.scaleLinear()
-            .domain([0,100])
-            .range([margin.left,width])
+            .domain([0, 100])
+            .range([margin.left, width])
 
         let y = d3.scaleLinear()
-            .domain([0,1])
-            .range([height-margin.bottom,margin.top])
+            .domain([0, 1])
+            .range([height - margin.bottom, margin.top])
 
         let area = d3.area()
             .x(d => x(d.data.Percentile))
@@ -152,23 +152,23 @@
         let xAxisSettings = d3.axisBottom(x)
             .tickSize(6)
             .tickPadding(6)
-            .tickValues([5,10,20,30,40,50,60,70,80,90,95])      
+            .tickValues([5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95])
             .tickFormat(d3.format(".0f"))
 
         let xAxis = svg.append("g")
-            .attr("class", "x axis")  
+            .attr("class", "x axis")
             .call(xAxisSettings)
             .call(g => g.selectAll(".domain").remove())
             .attr("transform", `translate(0,${height - margin.bottom})`)
-        
+
         let yAxisSettings = d3.axisLeft(y)
             .tickSize(6)
             .tickPadding(4)
-            .tickValues([.2,.4,.6,.8])      
+            .tickValues([.2, .4, .6, .8])
             .tickFormat(d3.format(".0%"))
 
         let yAxis = svg.append("g")
-            .attr("class", "y axis")  
+            .attr("class", "y axis")
             .call(yAxisSettings)
             .call(g => g.selectAll(".domain").remove())
 
@@ -176,33 +176,33 @@
             .selectAll("path")
             .data(series2020)
             .join("path")
-            .attr("class", d => {return d.key})
+            .attr("class", d => { return d.key })
             .attr("fill", d => color(d.key))
             .attr("d", area)
 
         svg.append("text")
             .attr("class", "axis-label")
-            .attr("x", width/2)
-            .attr("y", height+48)
+            .attr("x", width / 2)
+            .attr("y", height + 48)
             .text("INCOME PERCENTILE")
             .attr("text-anchor", "middle")
 
         svg.append("text")
             .attr("class", "axis-label")
             .attr("x", 30)
-            .attr("y", height+48)
+            .attr("y", height + 48)
             .text("lower INCOME")
             .attr("text-anchor", "start")
 
         svg.append("text")
             .attr("class", "axis-label")
-            .attr("x", width-30)
-            .attr("y", height+48)
+            .attr("x", width - 30)
+            .attr("y", height + 48)
             .text("higher INCOME")
             .attr("text-anchor", "end")
-    //     // https://github.com/d3/d3-scale#ordinal-scales
+        //     // https://github.com/d3/d3-scale#ordinal-scales
 
-    //     //https://github.com/d3/d3-shape#areas
+        //     //https://github.com/d3/d3-shape#areas
 
         let legend_cols = [
             "Medicare+Medicaid",
@@ -211,7 +211,7 @@
             "CHIP",
             "Military",
             "Other"
-            ]
+        ]
 
         let legend_colors = [
             "#FDD835", // "Medicare+Medicaid",
@@ -222,32 +222,32 @@
             "#E0E0E0"  // "Other"
         ]
 
-        let legend_color = d3.scaleOrdinal()
+        var legend_color = d3.scaleOrdinal()
             .domain(legend_cols)
             .range(legend_colors)
-
+            
         var size = 20
 
-        svg.append("mydots")
+        svg.selectAll("mydots")
             .data(legend_cols)
             .enter()
             .append("rect")
             .attr("x", 810)
-            .attr("y", function(d,i){ return 10 + i*(10+size)})
+            .attr("y", function (d, i) { return 10 + i * (10 + size) })
             .attr("width", size)
             .attr("height", size)
-            .style("fill", function(d){return legend_color(d)})
+            .style("fill", function (d) { return legend_color(d) })
 
-        svg.append("mylabels")
+        svg.selectAll("mylabels")
             .data(legend_cols)
             .enter()
             .append("text")
-            .attr("x", 820+size*1.2)
-            .attr("y", function(d,i){ return 10 + i*(10+size)+(size/2)})
-            .text(function(d){return d})
+            .attr("x", 820 + size * 1.2)
+            .attr("y", function (d, i) { return 10 + i * (10 + size) + (size / 2) })
+            .text(function (d) { return d })
             .attr("text-anchor", "left")
-            .attr("align-basement","middle")
-            .style("fill", function(d){return legend_color(d)})
+            .attr("align-basement", "middle")
+            .style("fill", function (d) { return legend_color(d) })
     })
 
 </script>
