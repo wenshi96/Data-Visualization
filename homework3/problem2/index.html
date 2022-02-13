@@ -170,6 +170,13 @@
             .call(yAxisSettings)
             .call(g => g.selectAll(".domain").remove())
 
+        svg.append("g")
+            .selectAll("path")
+            .data(series2020)
+            .join("path")
+            .attr("class", d => {return d.key})
+            .attr("fill", d => color(d.key))
+            .attr("d", area)
     //     // https://github.com/d3/d3-scale#ordinal-scales
 
     //     //https://github.com/d3/d3-shape#areas
