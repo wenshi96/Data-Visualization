@@ -63,13 +63,17 @@
             max-width: 1000px;
             margin: 0 auto;
         }
+
+        .highlight {
+            text-decoration: solid;
+        }
     </style>
 </head>
 
 <body>
     <div class="chart-container">
         <h1 class="headline">
-            Healthcare by income in 2020
+            Healthcare by Income: <span class='highlight'>2020</span>
         </h1>
 
         <svg width="1050px" height="575px">
@@ -121,6 +125,8 @@
             "#90A4AE", // "Military",
             "#E0E0E0"  // "Other"
         ]
+
+        let year_state = 2020
 
         let d2020 = data.filter(d => d.year == 2020)
         let d2009 = data.filter(d => d.year == 2009)
@@ -225,7 +231,7 @@
         var legend_color = d3.scaleOrdinal()
             .domain(legend_cols)
             .range(legend_colors)
-            
+
         var size = 20
 
         svg.selectAll("mydots")
@@ -248,6 +254,37 @@
             .attr("text-anchor", "left")
             .attr("align-basement", "middle")
             .style("fill", function (d) { return legend_color(d) })
+
+        function update() {
+            console.log("update")
+            console.log("old year state" + year_state)
+
+            if (year_state == 2020) {
+                year_state = 2009
+                dance(series2009)
+                hed.html("Healthcare by Income: <span class='highlight'>2009</span>")
+            } else {
+                year_state = 2020
+                dance(series2020)
+                hed.html("Healthcare by Income: <span class='highlight'>2020</span>")
+            }
+            console.log("new year state" + year_state)
+        }
+
+        function dance(filtered_data) {
+            let hed = d3.select(".headline")
+
+            svg.append("g")
+                .selectAll("path")
+                .data(filtered_data, d => d.group)
+                .join("path")
+                .attr("class", d => { return d.key })
+                .transition()
+                .duration(400)
+                .ease(d3.easeLinear)
+                .attr("d", area)
+        }
+        var timer = d3.interval(update, 2500)
     })
 
 </script>
