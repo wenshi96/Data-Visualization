@@ -162,7 +162,7 @@
                 .style("stroke", d => {
                     if (d[0] == "BradTo00") { return "#33B9FF" }
                     else if (d[0] == "MontJo01" || d[0] == "BradTe00" || d[0] == "ElwaJo00" || d[0] == "StarBa00" || d[0] == "TarkFr00") { return "#555555" }
-                    else if (d[0] == "RoetBe00" || d[0] == "RodgAa00" || d[0] == "FlacJo00" || d[0] == "WilsRu00" || d[0] == "MahoPa00" || d[0] == "RyanMa00" || d[0] == "GaroJi00" || d[0] == "BurrJo01" || d[0] == "AlleJo02" || d[0] == "CousKi00" || d[0] == "FoleNi00" || d[0] == "GoffJa00" || d[0] == "JackLa00" || d[0] == "KeenCa00" || d[0] == "MariMa01" || d[0] == "MayfBa00" || d[0] == "PresDa01" ) { return "#33B9FF" }
+                    else if (d[0] == "RoetBe00" || d[0] == "RodgAa00" || d[0] == "FlacJo00" || d[0] == "WilsRu00" || d[0] == "MahoPa00" || d[0] == "RyanMa00" || d[0] == "GaroJi00" || d[0] == "BurrJo01" || d[0] == "AlleJo02" || d[0] == "CousKi00" || d[0] == "FoleNi00" || d[0] == "GoffJa00" || d[0] == "JackLa00" || d[0] == "KeenCa00" || d[0] == "MariMa01" || d[0] == "MayfBa00" || d[0] == "PresDa01") { return "#33B9FF" }
                     else { return "#ccc" }
                 })
                 .style("stroke-width", d => {
@@ -171,6 +171,21 @@
                     } else {
                         return "1px"
                     }
+                })
+
+            let labels = svg.append("g")
+                .selectAll("text")
+                .data(grouped_data)
+                .join("text")
+                .attr("x", d => x(d[1][d[1].length - 1].year)) //get the last 
+                .attr("y", d => y(d[1][d[1].length - 1].playoff_wins)) // get the last
+                .attr("dx", -20)
+                .attr("dy", -5)
+                .text(d => d[0])
+                .style("fill", d => {
+                    if (d[0] == "BradTo00") {return "black"} 
+                    else if (d[0] == "MontJo01" || d[0] == "BradTe00" || d[0] == "ElwaJo00" || d[0] == "StarBa00" || d[0] == "TarkFr00") {return "grey"}
+                    else {return "none"}
                 })
 
         })
