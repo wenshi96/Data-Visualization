@@ -254,6 +254,8 @@
             .attr("text-anchor", "left")
             .attr("align-basement", "middle")
             .style("fill", function (d) { return legend_color(d) })
+            
+        var hed = d3.select(".headline")
 
         function update() {
             console.log("update")
@@ -272,8 +274,6 @@
         }
 
         function dance(filtered_data) {
-            let hed = d3.select(".headline")
-
             svg.append("g")
                 .selectAll("path")
                 .data(filtered_data, d => d.group)
@@ -282,6 +282,7 @@
                 .transition()
                 .duration(400)
                 .ease(d3.easeLinear)
+                .attr("fill", d => color(d.key))
                 .attr("d", area)
         }
         var timer = d3.interval(update, 2500)
