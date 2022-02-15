@@ -19,7 +19,7 @@
         }
 
         h1 {
-            margin-left: 30px;
+            margin-left: 0px;
         }
 
         .x .tick line {
@@ -61,28 +61,47 @@
 
         .source {
             max-width: 1000px;
-            margin: 0 auto;
+            font-size: 10px;
+            color: #aaa;
+            font-weight: 100;
+        }
+
+        .note {
+            font-size: 10px;
+            color: #ccc;
+            max-width: 800px;
+            font-weight: 100;
         }
 
         .highlight {
-            text-decoration: solid;
+            font-weight: 100;
+        }
+
+        .title {
+            font-weight: 100;
         }
     </style>
 </head>
 
 <body>
     <div class="chart-container">
-        <h1 class="headline">
-            Healthcare by Income: <span class='highlight'>2020</span>
-        </h1>
+        <h2 class="title">
+            Obamacare, in Its First Big Test as Safety Net, Is Holding Up So Far</h2>
+        <h3 class="title">Job losses and the loss of insurance have typically gone hand in hand. This year, more Americans are staying
+            covered.
+        </h3>
+        <h3 class="headline">  <span class='highlight'>2020</span>
+        </h3>
 
         <svg width="1050px" height="575px">
         </svg>
-        <p>Note: The income measure used here is disposable income, which is defined as market income plus cash
+        <p class="note">
+            Note: The income measure used here is disposable income, which is defined as market income plus cash
             transfers from the government and noncash benefits like food stamps and public housing. It excludes taxes,
             out-of-pocket medical spending, insurance premiums and other expenses. There have been small changes in the
             census questionnaire between the two survey dates. Source: Current Population Survey, analysis by Matt
-            Bruenig</p>
+            Bruenig
+        </p>
         <p class="source">Source: Current Population Survey, analysis by Matt Bruenig</p>
 
     </div>
@@ -200,14 +219,28 @@
 
         svg.append("text")
             .attr("class", "axis-label")
-            .attr("x", 30)
+            .attr("x", -50)
+            .attr("y", 20)
+            .text("enrollment")
+            .attr("text-anchor", "middle")
+        
+        svg.append("text")
+            .attr("class", "axis-label")
+            .attr("x", -28)
+            .attr("y", 40)
+            .text("rate")
+            .attr("text-anchor", "middle")
+
+        svg.append("text")
+            .attr("class", "axis-label")
+            .attr("x", 0)
             .attr("y", height + 48)
             .text("lower INCOME")
             .attr("text-anchor", "start")
 
         svg.append("text")
             .attr("class", "axis-label")
-            .attr("x", width - 30)
+            .attr("x", width)
             .attr("y", height + 48)
             .text("higher INCOME")
             .attr("text-anchor", "end")
@@ -261,7 +294,7 @@
             .domain(legend_cols)
             .range(legend_colors)
 
-        var size = 20
+        var size = 10
 
         svg.selectAll("mydots")
             .data(legend_cols)
@@ -278,10 +311,11 @@
             .enter()
             .append("text")
             .attr("x", 820 + size * 1.2)
-            .attr("y", function (d, i) { return 10 + i * (10 + size) + (size / 2) })
+            .attr("y", function (d, i) { return 14 + i * (10 + size) + (size / 2) })
             .text(function (d) { return d })
             .attr("text-anchor", "left")
             .attr("align-basement", "middle")
+            .style("font-size","12px")
             .style("fill", function (d) { return legend_color(d) })
 
         var hed = d3.select(".headline")
@@ -293,7 +327,7 @@
             if (year_state == 2020) {
                 year_state = 2009
                 dance(series2009)
-                hed.html("Healthcare by Income: <span class='highlight'>2009</span>")
+                hed.html(" <span class='highlight'>2009</span>")
 
                 svg.append("text")
                     .attr("class", "label")
@@ -324,7 +358,7 @@
             } else {
                 year_state = 2020
                 dance(series2020)
-                hed.html("Healthcare by Income: <span class='highlight'>2020</span>")
+                hed.html(" <span class='highlight'>2020</span>")
 
                 svg.append("text")
                     .attr("class", "label")
