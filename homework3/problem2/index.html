@@ -78,6 +78,11 @@
 
         <svg width="1050px" height="575px">
         </svg>
+        <p>Note: The income measure used here is disposable income, which is defined as market income plus cash
+            transfers from the government and noncash benefits like food stamps and public housing. It excludes taxes,
+            out-of-pocket medical spending, insurance premiums and other expenses. There have been small changes in the
+            census questionnaire between the two survey dates. Source: Current Population Survey, analysis by Matt
+            Bruenig</p>
         <p class="source">Source: Current Population Survey, analysis by Matt Bruenig</p>
 
     </div>
@@ -99,7 +104,7 @@
 
         console.log({ data })
 
-        let margin = { top: 10, right: 10, bottom: 10, left: 30 };
+        let margin = { top: 10, right: 10, bottom: 10, left: 0 };
 
         let sel_cols = [
             "Medicaid",
@@ -169,7 +174,7 @@
 
         let yAxisSettings = d3.axisLeft(y)
             .tickSize(6)
-            .tickPadding(4)
+            .tickPadding(6)
             .tickValues([.2, .4, .6, .8])
             .tickFormat(d3.format(".0%"))
 
@@ -206,9 +211,33 @@
             .attr("y", height + 48)
             .text("higher INCOME")
             .attr("text-anchor", "end")
-        //     // https://github.com/d3/d3-scale#ordinal-scales
 
-        //     //https://github.com/d3/d3-shape#areas
+        employer = svg.append("text")
+            .attr("class", "label")
+            .attr("x", 500)
+            .attr("y", 250)
+            .text("Employer")
+
+        medicaid = svg.append("text")
+            .attr("class", "label")
+            .attr("x", 80)
+            .attr("y", 450)
+            .text("Medicaid")
+            .style("fill", "white")
+
+        medicare = svg.append("text")
+            .attr("class", "label")
+            .attr("x", 40)
+            .attr("y", 310)
+            .text("Medicare")
+            .style("fill", "white")
+
+        uninsured = svg.append("text")
+            .attr("class", "label")
+            .attr("x", 100)
+            .attr("y", 97)
+            .text("Uninsured")
+            .style("fill", "white")
 
         let legend_cols = [
             "Medicare+Medicaid",
@@ -254,7 +283,7 @@
             .attr("text-anchor", "left")
             .attr("align-basement", "middle")
             .style("fill", function (d) { return legend_color(d) })
-            
+
         var hed = d3.select(".headline")
 
         function update() {
@@ -265,10 +294,64 @@
                 year_state = 2009
                 dance(series2009)
                 hed.html("Healthcare by Income: <span class='highlight'>2009</span>")
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", 600)
+                    .attr("y", 270)
+                    .text("Employer")
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", 80)
+                    .attr("y", 450)
+                    .text("Medicaid")
+                    .style("fill", "white")
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", 40)
+                    .attr("y", 340)
+                    .text("Medicare")
+                    .style("fill", "white")
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", 100)
+                    .attr("y", 125)
+                    .text("Uninsured")
+                    .style("fill", "white")
             } else {
                 year_state = 2020
                 dance(series2020)
                 hed.html("Healthcare by Income: <span class='highlight'>2020</span>")
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", 500)
+                    .attr("y", 250)
+                    .text("Employer")
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", 80)
+                    .attr("y", 450)
+                    .text("Medicaid")
+                    .style("fill", "white")
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", 40)
+                    .attr("y", 310)
+                    .text("Medicare")
+                    .style("fill", "white")
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", 100)
+                    .attr("y", 97)
+                    .text("Uninsured")
+                    .style("fill", "white")
             }
             console.log("new year state" + year_state)
         }
