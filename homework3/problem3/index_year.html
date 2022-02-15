@@ -23,11 +23,11 @@
         }
 
         .x .tick line {
-            stroke: rgba(0, 0, 0, .2);
+            stroke: "grey";
         }
 
         .y .tick line {
-            stroke: rgba(0, 0, 0, .2);
+            stroke: rgba(0, 0, 0, .1);
         }
 
         .x .domain {
@@ -78,7 +78,7 @@
 
         <svg width="1050px" height="575px">
         </svg>
-        <p class="source">Source: XXX</p>
+        <p class="source">Source: New York Times</p>
 
     </div>
 </body>
@@ -180,16 +180,14 @@
                 else if (d[0] == "MontJo01" || d[0] == "BradTe00" || d[0] == "ElwaJo00" || d[0] == "StarBa00" || d[0] == "TarkFr00") { return "#555555" }
                 else if (d[0] == "RoetBe00" || d[0] == "RodgAa00" || d[0] == "FlacJo00" || d[0] == "WilsRu00" || d[0] == "MahoPa00" || d[0] == "RyanMa00" || d[0] == "GaroJi00" || d[0] == "BurrJo01" || d[0] == "AlleJo02" || d[0] == "CousKi00" || d[0] == "FoleNi00" || d[0] == "GoffJa00" || d[0] == "JackLa00" || d[0] == "KeenCa00" || d[0] == "MariMa01" || d[0] == "MayfBa00" || d[0] == "PresDa01") { return "#33B9FF" }
                 else { return "#ccc" }
-            })            
+            })
             .attr("r", d => {
-                if (d[0] == "BradTo00") {
-                    return 4
-                } else {
-                    return 1
-                }
-            })            
+                if (d[0] == "BradTo00") {return 4} 
+                else if (d[1][d[1].length - 1].playoff_wins==0) {return 0}
+                else {return 1.5}
+            })
             .attr("cx", d => x(d[1][d[1].length - 1].year))
-            .attr("cy",  d => y(d[1][d[1].length - 1].playoff_wins));
+            .attr("cy", d => y(d[1][d[1].length - 1].playoff_wins));
 
         let labels = svg.append("g")
             .selectAll("text")
@@ -197,8 +195,14 @@
             .join("text")
             .attr("x", d => x(d[1][d[1].length - 1].year)) //get the last 
             .attr("y", d => y(d[1][d[1].length - 1].playoff_wins)) // get the last
-            .attr("dx", -20)
-            .attr("dy", -10)
+            .attr("dx", d => {
+                if (d[0] == "BradTo00") { return -60 }
+                else { return 5 }
+            })
+            .attr("dy", d => {
+                if (d[0] == "BradTo00") { return -20 }
+                else { return 2 }
+            }) 
             .text(d => d[1][0].last_name)
             .style("font-weight", "lighter")
             .style("fill", d => {
@@ -210,6 +214,15 @@
                 if (d[0] == "BradTo00") { return "30px" }
                 else if (d[0] == "MontJo01" || d[0] == "BradTe00" || d[0] == "ElwaJo00" || d[0] == "StarBa00" || d[0] == "TarkFr00") { return "10px" }
             })
+
+        let baseline = svg.append("line")
+            .attr("x1", margin.left)
+            .attr("x2", width + margin.left)
+            .attr("y1", y(0))
+            .attr("y2", y(0))
+            .style("stroke", "black")
+            .style("stroke-width", "1px")
+
     })
 
 
