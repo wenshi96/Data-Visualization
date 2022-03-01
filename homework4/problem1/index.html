@@ -7,19 +7,101 @@
     <style>
         .chart-container {
             max-width: 1050px;
-            /* border: 2px solid red; */
+            border: 3px solid transparent;
             margin: 0 auto;
             /* auto centers the div */
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
 
         svg {
-            /* border: 2px solid purple; */
+            border: 2px solid transparent;
             overflow: visible;
         }
 
+
         h1 {
-            margin-left: 0px;
+            border: 2px solid green;
+        }
+
+        .filler {
+            height: 20rem;
+            text-align: center;
+        }
+
+        .filler h2 {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 54px;
+        }
+
+
+        .filler p {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 24px;
+            text-align: left;
+            margin: 20px auto;
+            line-height: 1.2;
+            max-width: 600px
+        }
+
+        #scrolly-overlay .scrolly {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 24px;
+            max-width: 60rem;
+            margin: 3rem auto;
+            /* background-color: #f4f4f4; */
+            background-color: transparent;
+            padding: 1rem;
+            position: relative;
+
+        }
+
+        #scrolly-overlay .scrolly article {
+            padding: 0;
+            max-width: 30rem;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #scrolly-overlay .scrolly article .step {
+            min-height: 67vh;
+            margin-bottom: 1rem;
+        }
+
+        #scrolly-overlay .scrolly article .step:last-of-type {
+            margin-bottom: 0;
+        }
+
+        #scrolly-overlay .scrolly article .step.is-active p {
+            background-color: #008080;
+        }
+
+        #scrolly-overlay .scrolly article .step p {
+            margin: 0;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 400;
+            background-color: grey;
+            transition: background-color 250ms ease-in-out;
+            color: #f4f4f4;
+        }
+
+        #scrolly-overlay .scrolly figure.sticky {
+            /* this is the key style for the chart */
+            position: sticky;
+            width: 100%;
+            height: 50vh;
+            /* vh is the unit that divdes the viewport in units of 1/100 */
+            /* height is 50 vh = half the height of the viewport */
+            background: transparent;
+            margin: 0;
+            top: 25vh;
+            /* this is how high it should be from top */
+
+            left: 0;
+        }
+
+        .spacer {
+            height: 300px;
         }
 
         .x .tick line {
@@ -83,18 +165,47 @@
     </style>
 </head>
 
-<body>
-    <div class="chart-container">
+<body
+    <section class='filler'>
         <h2 class="title">
             Obamacare, in Its First Big Test as Safety Net, Is Holding Up So Far</h2>
-        <h3 class="title">Job losses and the loss of insurance have typically gone hand in hand. This year, more Americans are staying
+        <h3 class="title">Job losses and the loss of insurance have typically gone hand in hand. This year, more
+            Americans are staying
             covered.
         </h3>
-        <h3 class="headline">  <span class='highlight'>2020</span>
+        <h3 class="headline"> <span class='highlight'>2020</span>
         </h3>
+    </section>
 
-        <svg width="1050px" height="575px">
-        </svg>
+    <section id='scrolly-overlay'>
+        <div class='scrolly'>
+
+            <!--  sticky graphic   -->
+            <figure class='sticky'>
+                <!-- put your chart stuff here -->
+                <div class="chart-container">
+                    <svg width="1050px" height="400px">
+                    </svg>            
+                </div>
+  
+            </figure>
+
+            <!--  step text   -->
+            <article>
+                <div class='step' data-index='0'>
+                    <p>2009</p>
+                </div>
+                <div class='step' data-index='1'>
+                    <p>2020</p>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="filler">
+        <div class="spacer"></div>
+
         <p class="note">
             Note: The income measure used here is disposable income, which is defined as market income plus cash
             transfers from the government and noncash benefits like food stamps and public housing. It excludes taxes,
@@ -104,10 +215,12 @@
         </p>
         <p class="source">Source: Current Population Survey, analysis by Matt Bruenig</p>
 
-    </div>
+    </section>
 </body>
 
 <script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://unpkg.com/enter-view@1.0.0/enter-view.min.js"></script>
+
 <!-- we're using d3 version 6 (the latest version) for all out work -->
 
 <script>
@@ -223,7 +336,7 @@
             .attr("y", 20)
             .text("enrollment")
             .attr("text-anchor", "middle")
-        
+
         svg.append("text")
             .attr("class", "axis-label")
             .attr("x", -28)
@@ -315,17 +428,21 @@
             .text(function (d) { return d })
             .attr("text-anchor", "left")
             .attr("align-basement", "middle")
-            .style("font-size","12px")
+            .style("font-size", "12px")
             .style("fill", function (d) { return legend_color(d) })
 
         var hed = d3.select(".headline")
 
-        function update() {
+         const container = d3.select('#scrolly-overlay');
+     const stepSel = container.selectAll('.step'); //final all the step nodes
+
+     function update(index) {
             console.log("update")
             console.log("old year state" + year_state)
-
-            if (year_state == 2020) {
-                year_state = 2009
+        const sel = container.select(`[data-index='${index}']`);
+            stepSel.classed('is-active', (d, i) => i === index);
+            if (index == 0) {
+            index=1
                 dance(series2009)
                 hed.html(" <span class='highlight'>2009</span>")
 
@@ -356,7 +473,7 @@
                     .text("Uninsured")
                     .style("fill", "white")
             } else {
-                year_state = 2020
+                index=0
                 dance(series2020)
                 hed.html(" <span class='highlight'>2020</span>")
 
@@ -397,12 +514,38 @@
                 .join("path")
                 .attr("class", d => { return d.key })
                 .transition()
-                .duration(400)
+                // .duration(400)
                 .ease(d3.easeLinear)
                 .attr("fill", d => color(d.key))
                 .attr("d", area)
         }
-        var timer = d3.interval(update, 2500)
-    })
+       // var timer = d3.interval(update, 2500)
 
+    // function updateChart(index) {
+    //     const sel = container.select(`[data-index='${index}']`);
+        //     stepSel.classed('is-active', (d, i) => i === index);
+        
+    // }
+
+    function init() {
+
+        enterView({ //our main view function
+            selector: stepSel.nodes(),
+            offset: 0.5, //when the slide is 50% away then trigger your chart
+            enter: el => { //what's supposed to happen when the slide enters?
+                const index = +d3.select(el).attr('data-index'); //extract the data-index attribute. this can be anything: a filter, a date, whatever.
+                update(index);
+            },
+            exit: el => { //what's supposed to happen when the slide exits?
+                let index = +d3.select(el).attr('data-index');
+                index = Math.max(0, index - 1);
+                update(index);
+            }
+        });
+
+    }
+
+    init();
+
+    })
 </script>
