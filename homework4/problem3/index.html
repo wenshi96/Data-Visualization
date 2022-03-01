@@ -72,7 +72,6 @@
     let svg = d3.select("body").select("svg");
     let margin={top:30,right:10, bottom:0, left:20};
 
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
     d3.json('county.json').then(function(data){
         console.log(data)
         let counties=topojson.feature(data, data.objects.bubble)
@@ -99,7 +98,7 @@
             .join("path")
             .attr("d", path)
             .attr("class", 'states')
-            .style("fill", "lightgrey")
+            .style("fill", "#eee")
             .style("stroke", "black")
             //.style('pointer-events','none')
 
@@ -109,9 +108,7 @@
             .join('circle')
             .attr('class',function(d){return 'circle p-'+ d.properties.GEOID})
             .attr('fill','orange')
-            .attr('stroke','#fff')
             .attr('fill-opaciy',.3)
-            .attr('stroke-width',.8)
             .attr("transform", d=>`translate(${projection([d.geometry.coordinates[0],d.geometry.coordinates[1]])})`)
             .attr('r', d=>Math.sqrt(d.properties.pop_18_in_poverty/200))
             //.style('pointer-events','none')
@@ -122,15 +119,11 @@
 
             circles
                 .attr('fill','orange')
-                .attr('stroke','#fff')
                 .attr('fill-opaciy',.3)
-                .attr('stroke-width',.8)
 
             svg.select(".p-" + d.properties.GEOID)
                 .attr('fill','#ff7f50')
-                .attr('stroke','#fff')
                 .attr('fill-opaciy',.3)
-                .attr('stroke-width',.8)
                 .raise()
 
             
@@ -147,12 +140,9 @@
                 
 
             circles.on("mouseout", (event, d) => {
-                // console.log(event)
                 circles
                     .attr('fill','orange')
-                    .attr('stroke','#fff')
                     .attr('fill-opaciy',.3)
-                    .attr('stroke-width',.8)
 
                 popup
                     .style("opacity", 0)
