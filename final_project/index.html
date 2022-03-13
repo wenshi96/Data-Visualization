@@ -219,12 +219,12 @@
     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
     maxZoom: 20,
-  }),
-    daymap = L.tileLayer(
-          'https://tile.openstreetmap.org/${z}/${x}/${y}.png', {
-          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
-          maxZoom: 20,
-        });
+  });
+  var daymap = L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+    maxZoom: 20,
+  });
   // Add a svg layer to the map
   L.svg().addTo(map1);
   let svg = d3.select("#scattermap").select("svg");
@@ -308,12 +308,9 @@
         isNight = "Yes"
         d3.selectAll("circle")
           .data(dnight)
-        //   L.tileLayer(
-        //   'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
-        //   attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
-        //   maxZoom: 20,
-        // }).addTo(map1);  
         
+        nightmap.addTo(map1);  
+
         button.html("Back to Daytime")
       }
 
