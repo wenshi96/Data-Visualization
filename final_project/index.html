@@ -302,9 +302,8 @@
           .data(dday)
 
         daymap.addTo(map1);
-        daymap.bringToFront(map1);
 
-        button.html("Back to Daytime")
+        button.html("Go to Nighttime")
       } else {
         isNight = "Yes"
         d3.selectAll("circle")
@@ -315,7 +314,7 @@
         //   maxZoom: 20,
         // }).addTo(map1);  
         
-        button.html("Go to Nighttime")
+        button.html("Back to Daytime")
       }
 
       var t = d3.transition().duration(400)
