@@ -13,8 +13,6 @@
       position: absolute;
       border: 1px solid #eee;
       border-radius: 1px;
-      /* line-height: 1.2; */
-      /* width: 200px; */
       pointer-events: none;
       background-color: white;
       padding: 15px;
@@ -36,7 +34,6 @@
       line-height: 180%;
       width: 700px;
     }
-
 
     svg .y.axis .tick line {
       display: none;
@@ -78,33 +75,41 @@
 
 <body>
   <div class="helvetica">
-    <div id="heatmap" class="mymap vh-100 vw-100 bg-near-white">
+    <div class="helvetica vh-100 vw-100 bg-near-white">
       <div id="legend" class="bg-white relative pa2 mt2 ml2 br1 o-90"
-        style="top:6rem; right:-70%; z-index: 999; width: 370px; padding: 10px">
+        style="top:4rem; right:0%; z-index: 999; width: 370px; padding: 10px;position: absolute;">
         <h1 class="f3 mt0">Hyde Park Crime Map</h1>
 
-        <p class="measure mb1">
-          Hyde Park is one of Chicago’s most iconic neighborhoods - it is vibrant, diverse, and eclectic.
-          <br>
-          However, it is dangerous as well. This page shows the crime distribution in Hyde Park from 2017 to 2022.
-          <br>
-          Zoom in to learn more.
+        <p class="measure mb1" style="font-size: smaller;">
+          Hyde Park is one of Chicago’s most iconic neighborhoods - it is vibrant, diverse, and eclectic.<br/>
+          <br/>
+        However, it is dangerous as well. This page shows the crime distribution in Hyde Park from 2017 to 2022.
+        <br>
         </p>
+      </div>
+      <img src="hydepark-modified.jpg" alt="hp view" style="height: 600px;">
+    </div>
+    <div id="heatmap" class="mymap vh-100 vw-100 bg-near-white helvetica">
+      <div id="legend2" class="bg-white relative pa2 mt2 ml2 br1 o-90"
+        style="top:6rem; right:-70%; z-index: 999; width: 370px; padding: 10px">
+        <h1 class="f3 mt0">Crime Heatmap</h1>
 
+        <p class="measure mb1">
+          We look into the crime records in Hyde Park from 2017 January to 2022 March based on the <a
+            href="https://data.cityofchicago.org/Public-Safety/Crimes-One-year-prior-to-present/x2n5-8w5q/data">data</a>
+          from the City of Chicago.
+          <br>
+        <p> </p>
+        While crimes happen everywhere, we can see from the heatmap that <b>53rd street</b> is one of the hotspots.
+        <br>
+        <p> </p>
+        Zoom in to learn more.<br>
+        </p>
       </div>
     </div>
 
   </div>
 
-  <div class="text-box">
-    <br><br>
-    We look into the crime records in Hyde Park from 2017 January to 2022 March based on the <a
-      href="https://data.cityofchicago.org/Public-Safety/Crimes-One-year-prior-to-present/x2n5-8w5q/data">data</a> from
-    the City of Chicago.
-    <br>
-    While crimes happen everywhere, we can see from the heatmap that <b>53rd street</b> is one of the hotspots.
-    <br><br>
-  </div>
 
   <div id="scattermap" class="mymap helvetica">
     <div id="legend" class="bg-white relative pa2 mt2 ml2 br1 o-90"
@@ -115,9 +120,11 @@
         The University of Chicago students 10 free Lyft rides per month (up to $15 off per ride) on all late-night (from
         5 pm to 4 am) rides within the service area.
         <br>
-        However, are there really more crimes during the night time?
-        <br>
-        Click the button and move your mouse to learn more.
+      <p> </p>
+      However, are there really more crimes during the night time?
+      <br>
+      <p> </p>
+      Click the button and move your mouse to learn more.
       </p>
       <button class="change-btn">Back to Daytime</button>
     </div>
@@ -129,22 +136,25 @@
     Interestingly, there was <b>no significant difference</b> between daytime and nighttime crimes.
     <br><br>
   </div>
-  <div id="barchart" style="height: 500px;">
+  <div id="barchart" class="mymap helvetica">
     <h2 class="headline" style="text-align: center;">
       Crimes by Type, <span class='highlight'>In 2017</span>
     </h2>
-    <svg width="1050px" height="500px">
-
-    </svg>
+    <div style="display: inline-block;" class="helvetica">
+      <svg width="1050px" height="500px"></svg>
+      <div id="legend3" class="bg-white relative pa2 mt2 ml2 br1 o-90"
+        style="top:-28rem; right:-70%; z-index: 999; width: 370px;">
+        <p class="measure mb1" style="font-size: small;">
+          <b>Theft</b> is the most common type of crime in Hyde Park. Over the past five years, there have been more
+          than<b> 500 thefts</b> on average a year.<br/>
+          <br/>
+        Crime briefly dips in 2020 (possibly due to covid) but picks up in 2021.
+        </p>
+        <br>
+      </div>
+    </div>
   </div>
-  <div class="text-box">
-    <br><br>
-    <b>Theft</b> is the most common type of crime in Hyde Park. Over the past five years, there have been more than
-    <b>500 thefts</b> on average a year.
-    <br>
-    Crime briefly dips in 2020 (possibly due to covid) but picks up in 2021.
-    <br><br>
-  </div>
+<div class="text-box" style="font-size: large;margin-top: 160px;">Be safe:)</div>
   <div class="pop-up"></div>
 
 </body>
@@ -275,7 +285,7 @@
       popup
         .style("opacity", 1)
         .style("left", (event.x) + "px")
-        .style("top", (event.y) + 500 + "px")
+        .style("top", (event.y) + 1100 + "px")
         .style("font-size", "7px")
         .style("line-height", "150%")
         .html(lang)
@@ -308,8 +318,8 @@
         isNight = "Yes"
         d3.selectAll("circle")
           .data(dnight)
-        
-        nightmap.addTo(map1);  
+
+        nightmap.addTo(map1);
 
         button.html("Back to Daytime")
       }
@@ -348,7 +358,7 @@
     let data21 = [...data].filter(d => d.Year == "2021")
     let data22 = [...data].filter(d => d.Year == "2022")
 
-    let margin = { top: 10, right: 10, bottom: 100, left: 400 };
+    let margin = { top: 10, right: 10, bottom: 100, left: 300 };
 
     let y = d3.scaleBand()
       .domain(data17.map(d => d.Primary_Type).reverse()) //d3 extent
