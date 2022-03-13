@@ -111,7 +111,7 @@
             .attr('fill-opaciy',.3)
             .attr("transform", d=>`translate(${projection([d.geometry.coordinates[0],d.geometry.coordinates[1]])})`)
             .attr('r', d=>Math.sqrt(d.properties.pop_18_in_poverty/200))
-            //.style('pointer-events','none')
+            .attr("pointer-events","visible")
         
         //mouseover
         let popup = d3.select(".pop-up");
